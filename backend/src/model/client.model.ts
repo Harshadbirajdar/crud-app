@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Schema, model, Types, Document } from "mongoose";
+import { Schema, model, Types, Document, Model } from "mongoose";
 
 export interface IClient extends Document {
   _id: Types.ObjectId;
@@ -10,6 +10,9 @@ export interface IClient extends Document {
   address: string;
 }
 
+interface IClientMethod extends Model<IClient> {
+  isIdExist(id: number): boolean;
+}
 const clientSchema = new Schema<IClient>({
   firstName: {
     type: Schema.Types.String,
@@ -23,7 +26,6 @@ const clientSchema = new Schema<IClient>({
   },
   email: {
     type: Schema.Types.String,
-    unique: true,
     trim: true,
   },
   id: {
@@ -37,5 +39,9 @@ const clientSchema = new Schema<IClient>({
   },
 });
 
-const ClientModel = model<IClient>("Client", clientSchema);
+clientSchema.statics.isIdExist = async function (id, excludeUserId) {
+  const client = await this.findOne({ id, _id: { $ne: excludeUserId } });
+  return !!client;
+};
+const ClientModel = model<IClient, IClientMethod>("Client", clientSchema);
 export default ClientModel;
