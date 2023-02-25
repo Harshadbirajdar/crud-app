@@ -46,7 +46,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {...rest}
           id={name}
           type={type}
-          required={isRequired}
           className={`block w-full appearance-none rounded-md border px-3 py-2 placeholder-gray-400 shadow-sm sm:text-sm ${
             className || ""
           }

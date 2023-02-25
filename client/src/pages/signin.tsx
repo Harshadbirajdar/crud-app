@@ -4,7 +4,7 @@ import Input from "@/components/core/Input";
 import Button from "@/components/core/Button";
 import AxiosInstances from "@/helper/AxiosInstances";
 import { toast } from "react-hot-toast";
-import { TOKEN } from "@/config";
+import { TOKEN, USER } from "@/config";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -30,7 +30,9 @@ const Signin = () => {
         if (data.success) {
           setLoading(false);
           toast.success("Login successfully...");
-          sessionStorage.setItem(TOKEN, data.access);
+          sessionStorage.setItem(TOKEN, data.data.token.access.token);
+          sessionStorage.setItem(USER, JSON.stringify(data.data.user));
+          AxiosInstances.defaults.headers.Authorization = `Bearer ${data.data.token.access.token}`;
           router.push("/");
         }
       })
