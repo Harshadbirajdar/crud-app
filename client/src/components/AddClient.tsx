@@ -1,4 +1,5 @@
 import AxiosInstances from "@/helper/AxiosInstances";
+import useClientStore from "@/store/client";
 import { sanitizeObject } from "@/utils";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -13,6 +14,7 @@ interface IAddClient {
 }
 
 const AddClient = ({ open, setOpen }: IAddClient) => {
+  const { page, limit, getAllClient } = useClientStore();
   const [loading, setLoading] = useState(false);
   const {
     register,
@@ -36,6 +38,7 @@ const AddClient = ({ open, setOpen }: IAddClient) => {
           setLoading(false);
           setOpen(false);
           toast.success(response.data.message);
+          getAllClient(page, limit);
           reset();
         }
       })
