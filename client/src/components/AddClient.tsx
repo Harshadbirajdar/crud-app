@@ -122,6 +122,10 @@ const AddClient = ({ open, setOpen }: IAddClient) => {
                                   /(([0-9]{2})(0|1)([0-9])([0-3])([0-9]))([ ]?)(([0-9]{4})([ ]?)([0-1][8]([ ]?)[0-9]))/,
                                 message: "Please enter a valid ID",
                               },
+                              maxLength: {
+                                value: 13,
+                                message: "Please enter a valid ID",
+                              },
                             })}
                             label="ID number"
                             isRequired={true}
