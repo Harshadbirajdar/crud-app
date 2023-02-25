@@ -17,6 +17,19 @@ const createClient = asyncHandler(
   }
 );
 
+const getAllClients = asyncHandler(
+  async (req: ProtectedRequest, res: Response) => {
+    const { page, limit } = req.query;
+
+    const clients = await clientService.getAllClient(
+      page as string,
+      limit as string
+    );
+    return commonResponse(res, "Clients Retrieved Successfully", clients);
+  }
+);
+
 export default {
   createClient,
+  getAllClients,
 };

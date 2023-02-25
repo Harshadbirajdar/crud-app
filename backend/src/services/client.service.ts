@@ -9,4 +9,15 @@ const createClient = async (data: IClient) => {
   return ClientModel.create(data);
 };
 
-export default { createClient };
+const getAllClient = async (page = "1", limit = "10") => {
+  const Page = parseInt(page) - 1;
+  const Limit = parseInt(limit);
+  const skip = Page * Limit;
+
+  const total = await ClientModel.countDocuments();
+  const client = await ClientModel.find().skip(skip).limit(Limit);
+
+  return { total, client, page: Page + 1, limit: Limit };
+};
+
+export default { createClient, getAllClient };

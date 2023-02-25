@@ -12,5 +12,6 @@ router.post(
   validate(clientValidation.createClient),
   clientController.createClient
 );
+router.get("/", isLoggedIn, clientController.getAllClients);
 
 export default router;
