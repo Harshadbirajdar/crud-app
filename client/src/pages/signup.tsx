@@ -108,8 +108,12 @@ const Signin = () => {
               />
 
               <div>
-                <Button loading={loading} onClick={onSubmit}>
-                  Sign in
+                <Button
+                  className="!w-full"
+                  loading={loading}
+                  onClick={onSubmit}
+                >
+                  Sign Up
                 </Button>
               </div>
             </form>
