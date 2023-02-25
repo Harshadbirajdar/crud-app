@@ -17,7 +17,7 @@ const AxiosInstances = axios.create({
 AxiosInstances.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.data.success == false) {
+    if (error.response.data.success == "false") {
       let message = error.response.data.message;
       message ? toast.error(message) : toast.error("Something went wrong");
     } else {
