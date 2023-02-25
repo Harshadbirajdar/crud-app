@@ -18,20 +18,21 @@ const Signin = () => {
     handleSubmit,
   } = useForm({
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
   });
   const onSubmit = handleSubmit((data) => {
     setLoading(true);
-    AxiosInstances.post("/auth/login", data)
+    AxiosInstances.post("/auth/register", data)
       .then((response) => {
         const { data } = response;
         if (data.success) {
           setLoading(false);
-          toast.success("Login successfully...");
+          toast.success("Account successfully registered");
           sessionStorage.setItem(TOKEN, data.access);
-          router.push("/");
+          router.push("/signin");
         }
       })
       .catch(() => {
@@ -43,15 +44,15 @@ const Signin = () => {
       <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-            Sign in to your account
+            Create your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Or{" "}
             <Link
-              href="/signup"
+              href="/signin"
               className="font-medium text-indigo-600 hover:text-indigo-500"
             >
-              Are you a new user?
+              Are you a existing user?
             </Link>
           </p>
         </div>
@@ -59,6 +60,17 @@ const Signin = () => {
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
             <form className="space-y-6" onSubmit={onSubmit}>
+              <Input
+                isRequired={true}
+                {...register("name", {
+                  required: {
+                    value: true,
+                    message: "Please enter your Name",
+                  },
+                })}
+                label="Name"
+                error={errors.name?.message}
+              />
               <Input
                 isRequired={true}
                 {...register("email", {
@@ -95,35 +107,8 @@ const Signin = () => {
                 error={errors.password?.message}
               />
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input
-                    id="remember-me"
-                    name="remember-me"
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                  />
-                  <label
-                    htmlFor="remember-me"
-                    className="ml-2 block text-sm text-gray-900"
-                  >
-                    Remember me
-                  </label>
-                </div>
-
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
-                  >
-                    Forgot your password?
-                  </a>
-                </div>
-              </div>
-
               <div>
                 <Button loading={loading} onClick={onSubmit}>
-                  {" "}
                   Sign in
                 </Button>
               </div>
